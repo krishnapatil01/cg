@@ -1,0 +1,57 @@
+#include <GL/glut.h>
+#include <cmath>
+
+float angle = 0.0f;
+float speed = 2.0f;
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glLoadIdentity();
+
+    // Rotate around the Z-axis
+    glRotatef(angle, 0.0f, 0.0f, 1.0f);
+
+    // Draw a square centered at the origin
+    glBegin(GL_QUADS);
+        glVertex2f(-0.5f, -0.5f);
+        glVertex2f( 0.5f, -0.5f);
+        glVertex2f( 0.5f,  0.5f);
+        glVertex2f(-0.5f,  0.5f);
+    glEnd();
+
+    glutSwapBuffers(); // For double buffering
+}
+
+void reshape(int width, int height) {
+    glViewport(0, 0, width, height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0); // 2D orthographic projection
+    glMatrixMode(GL_MODELVIEW);
+}
+
+void update(int value) {
+    angle += speed;
+    if (angle > 360.0f) {
+        angle -= 360.0f;
+    }
+
+    glutPostRedisplay();              // Trigger display callback
+    glutTimerFunc(16, update, 0);     // Approx 60 FPS
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+    glutInitWindowSize(500, 500);
+    glutCreateWindow("Rotating Square");
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Background color: black
+
+    glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
+    glutTimerFunc(0, update, 0);
+
+    glutMainLoop();
+    return 0;
+}
