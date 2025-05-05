@@ -1,0 +1,10 @@
+#include<PIC18F458.h>
+#include<stdio.h>
+void main(){
+ int a,b,c;
+ a=100;
+ b=100;
+ c=a+b;
+ TRISB=0;
+ PORTC=c;
+}
