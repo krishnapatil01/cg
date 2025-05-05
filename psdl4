@@ -1,0 +1,22 @@
+#include <PIC18F458.h>
+// Define the delay in milliseconds
+void delay();
+void main(void) {
+// Set the TRISB register to output mode for the LED
+TRISB = 0x00;
+// Loop forever
+// Turn the LED on
+while(1)
+{
+PORTB = 0xFF;
+delay();
+PORTB = 0x00;
+delay();
+}
+}
+void delay()
+{
+for(int i=0;i<=10000;i++)
+{
+}
+
